@@ -1,0 +1,9 @@
+Linux:
+
+    Set up an NGINX Reverse Proxy with the following sites:
+        - Test.com – Reverse proxy to https://ynet.co.il with a self signed server cert
+		
+        - Test-client.com – Reverse proxy to https://ynet.co.il with a self signed server cert and client cert inforcment;
+          that means I cannot access the url without adding the client-cert to the browser.
+		  
+        - Test-docker.com – Reverse proxy to a local mattermost container , also with client cert.

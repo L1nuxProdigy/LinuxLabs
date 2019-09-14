@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#installing Terraform
+apt update
+apt install unzip
+wget https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip
+unzip /terraform_0.12.8_linux_amd64.zip
+mv /terraform /usr/local/bin/
+chown ubuntu /usr/local/bin/
+
+###Setting some in scripts vars for later easier edit
+
+USER_HOME_FOLDER='/home/ubuntu'
+REPO_HOME_FOLDER=$USER_HOME_FOLDER'/finalProject-OpsSchool'
+TERRAFORM_WORKING_FOLDER=$REPO_HOME_FOLDER/'terraform'
+TERRAFORM_VARS_FILE=$TERRAFORM_WORKING_FOLDER/vars
+
+#getting the repo
+cd /home/ubuntu
+git clone https://github.com/L1nuxProdigy/finalProject-OpsSchool
+cd $TERRAFORM_WORKING_FOLDER
+terraform init
+
+#adding directories and files
+
+echo 'aws_access_key = ""' > $TERRAFORM_VARS_FILE
+echo 'aws_secret_key = ""' >> $TERRAFORM_VARS_FILE
+echo 'private_key_path = ""' >> $TERRAFORM_VARS_FILE
+
+cd $TERRAFORM_WORKING_FOLDER
+./adding_variables
+
+chown -R ubuntu $REPO_HOME_FOLDER

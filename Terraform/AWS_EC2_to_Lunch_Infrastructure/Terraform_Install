@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#installing Terraform
+apt update
+apt install unzip
+wget https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip
+unzip /terraform_0.12.8_linux_amd64.zip
+mv /terraform /usr/local/bin/
+chown ubuntu /usr/local/bin/
+
+###Setting some in scripts vars for later easier edit
+USER_HOME_FOLDER='/home/ubuntu'
+TERRAFORM_WORKING_FOLDER=$USER_HOME_FOLDER/'terraform'
+TERRAFORM_VARS_FILE=$TERRAFORM_WORKING_FOLDER/vars
+
+#getting the repo
+mkdir $TERRAFORM_WORKING_FOLDER
+cd $TERRAFORM_WORKING_FOLDER
+terraform init
+
+#adding directories and files
+
+echo 'aws_access_key = ""' > $TERRAFORM_VARS_FILE
+echo 'aws_secret_key = ""' >> $TERRAFORM_VARS_FILE
+echo 'private_key_path = ""' >> $TERRAFORM_VARS_FILE
+
+chown -R ubuntu $REPO_HOME_FOLDER

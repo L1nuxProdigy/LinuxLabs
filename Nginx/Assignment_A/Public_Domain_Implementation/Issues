@@ -1,0 +1,3 @@
+#1 	The Domains specified are public and not internal
+
+#2 in the mattermost config does the ${public-ipv4} vauable manage to get the public ip of the mahicne?

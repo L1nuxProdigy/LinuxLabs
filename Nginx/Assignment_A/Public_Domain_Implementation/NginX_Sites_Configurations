@@ -1,0 +1,116 @@
+#!/bin/bash
+
+## Site 1 ##
+# Overwriting the default nginx page to basic proxy
+cat << EOF > /etc/nginx/sites-available/default
+server {
+        listen 80;
+
+        location / {
+                proxy_pass https://ynet.co.il/;
+                }
+}
+EOF
+#ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+## Site 2 ##
+# Create a Page using Server SSL Cert
+cat << EOF > /etc/nginx/sites-available/server_cert_redirection
+server {
+    listen 443 ssl;
+    include snippets/self-signed.conf;
+    include snippets/ssl-params.conf;
+
+    server_name test.altris.co.il;
+
+    location / {
+      proxy_pass https://ynet.co.il/;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name test.altris.co.il;
+
+    return 301 https://\$server_name\$request_uri; #'\' escape character #
+}
+EOF
+
+ln -s /etc/nginx/sites-available/server_cert_redirection /etc/nginx/sites-enabled/server_cert_redirection
+
+## Site 3 ##
+# Redirects the Request with Server Cert and Client Cert. the 'EOF' allowes the use of inside code
+cat << 'EOF' > /etc/nginx/sites-available/client_and_server_cert
+server {
+    listen 443 ssl;
+    include snippets/self-signed.conf;
+    include snippets/ssl-params.conf;
+
+    server_name test-client.altris.co.il;
+
+    ssl_client_certificate /etc/ssl/certs/ca.crt;
+    ssl_verify_client optional;
+
+    location / {
+        if ($ssl_client_verify != SUCCESS) {
+            return 403;
+        }
+        proxy_pass https://ynet.co.il/;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name test-client.altris.co.il;
+
+    return 301 https://$server_name$request_uri;
+}
+EOF
+
+ln -s /etc/nginx/sites-available/client_and_server_cert /etc/nginx/sites-enabled/client_and_server_cert
+
+## Site 4 ##
+# Create a Site for testing purposes, nothing special
+cat << 'EOF' > /etc/nginx/sites-available/Mattermost
+server {
+    listen 443 ssl;
+    include snippets/self-signed.conf;
+    include snippets/ssl-params.conf;
+
+    server_name test-docker.altris.co.il;
+
+    ssl_client_certificate /etc/ssl/certs/ca.crt;
+    ssl_verify_client optional;
+
+    location / {
+        if ($ssl_client_verify != SUCCESS) {
+          return 403;
+        }
+        proxy_pass ${public-ipv4}:8065/;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name test-docker.altris.co.il;
+
+    return 301 https://$server_name$request_uri;
+}
+EOF
+
+ln -s /etc/nginx/sites-available/Mattermost /etc/nginx/sites-enabled/Mattermost
+
+# restart the service
+service nginx restart
+
+
+
+
+
+

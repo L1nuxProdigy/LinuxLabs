@@ -1,0 +1,11 @@
+#!/bin/bash
+
+./Docker_Install
+./NginX_Install_and_Configuration
+./Certificates_Configuration
+./NginX_Sites_Configurations
+
+
+
+
+
