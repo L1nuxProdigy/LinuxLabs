@@ -103,15 +103,7 @@ server {
 
     server_name test-docker.altris.co.il;
 
-    ssl_client_certificate /etc/ssl/certs/ca.crt;
-    ssl_verify_client optional;
-
-    location / {
-        if (\$ssl_client_verify != SUCCESS) {
-          return 403;
-        }
-        proxy_pass http://${Public_IPV4}:8065/;
-    }
+    return 301 https://${Public_IPV4}:8065/;
 }
 EOF
 

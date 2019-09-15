@@ -24,9 +24,6 @@ openssl req -new -key nginx_server.key -out nginx_server.csr -subj "/C=IL/L=Jer/
 #openssl x509 -in nginx_server.crt -text -noout
 openssl x509 -req -days 730 -in nginx_server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out nginx_server.crt
 
-## Creating a PKCS
-openssl pkcs12 -export -out server.pfx -inkey nginx_server.key -in nginx_server.crt -certfile ca.crt -password pass:1
-
 
 #### Client Cert ####
 
@@ -40,21 +37,18 @@ openssl req -new -key user.key -out user.csr -subj "/C=IL/L=Jer/O=UserCert"
 openssl x509 -req -days 365 -in user.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out user.crt
 
 ## Creating a PKCS
-openssl pkcs12 -export -out user.pfx -inkey user.key -in user.crt -certfile ca.crt -password pass:12
+openssl pkcs12 -export -out user.pfx -inkey user.key -in user.crt -certfile ca.crt -password pass:1
 
 
 #### Moving CA Cert, Server Cert and Key to Where Nginx is Looking for them ####
-mv nginx_server.crt /etc/ssl/certs/nginx_server.crt
-mv nginx_server.key /etc/ssl/private/nginx_server.key
-mv ca.crt /etc/ssl/certs/ca.crt
+cp nginx_server.crt /etc/ssl/certs/nginx_server.crt
+cp nginx_server.key /etc/ssl/private/nginx_server.key
+cp ca.crt /etc/ssl/certs/ca.crt
 
 
 #### Moving PKCS to where one can download from, also for that purpose granting permission to the user ubuntu
+#### the PFX file contains the ca.crt user.crt and user.key
 mkdir /home/ubuntu/PKCS/
-
-mv server.pfx /home/ubuntu/PKCS/server.pfx
-chown root:ubuntu /home/ubuntu/PKCS/server.pfx
-chmod 640 /home/ubuntu/PKCS/server.pfx
 
 mv user.pfx /home/ubuntu/PKCS/user.pfx
 chown root:ubuntu /home/ubuntu/PKCS/user.pfx

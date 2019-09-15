@@ -1,0 +1,17 @@
+#!/bin/bash
+
+mkdir /home/ubuntu/Temp
+cd /home/ubuntu/Temp
+git init
+git remote add origin -f https://github.com/L1nuxProdigy/LinuxLabs
+git config core.sparseCheckout true
+echo "/Nginx/Assignment_A/Public_Domain_Implementation" > .git/info/sparse-checkout
+git pull origin master
+
+mkdir /home/ubuntu/repo
+mv /home/ubuntu/Temp/Nginx/Assignment_A/Public_Domain_Implementation/* /home/ubuntu/repo/
+
+rm -rf /home/ubuntu/Temp
+
+cd /home/ubuntu/repo
+./Aggregate_Script

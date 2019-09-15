@@ -8,7 +8,7 @@ openssl genrsa -out ca.key 4096
 ## Create a CA Certificate
 #openssl req -new -nodes -x509 -days 365 -key ca.key -out ca.crt
 #openssl x509 -in ca.crt -text -noout, content of the certificate
-openssl req -new -nodes -x509 -days 365 -key ca.key -out ca.crt -subj "/C=IL/L=Jer/O=CA"
+openssl req -new -nodes -x509 -days 365 -key ca.key -out ca.crt -config < (cat Certificates_CA_Params.txt)
 
 
 #### Server Cert ####
@@ -47,11 +47,8 @@ cp ca.crt /etc/ssl/certs/ca.crt
 
 
 #### Moving PKCS to where one can download from, also for that purpose granting permission to the user ubuntu
+#### the PFX file contains the ca.crt user.crt and user.key
 mkdir /home/ubuntu/PKCS/
-
-mv server.pfx /home/ubuntu/PKCS/server.pfx
-chown root:ubuntu /home/ubuntu/PKCS/server.pfx
-chmod 640 /home/ubuntu/PKCS/server.pfx
 
 mv user.pfx /home/ubuntu/PKCS/user.pfx
 chown root:ubuntu /home/ubuntu/PKCS/user.pfx
