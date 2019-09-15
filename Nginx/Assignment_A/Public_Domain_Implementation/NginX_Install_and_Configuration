@@ -6,7 +6,7 @@ apt install nginx -y
 # Create "self-signed.conf" snippet
 cat << EOF > /etc/nginx/snippets/self-signed.conf
 ssl_certificate /etc/ssl/certs/nginx_server.crt;
-ssl_certificate_key /etc/ssl/nginx_server.key;
+ssl_certificate_key /etc/ssl/private/nginx_server.key;
 EOF
 
 # Create "ssl-params.conf" snippet

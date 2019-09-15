@@ -45,7 +45,7 @@ openssl pkcs12 -export -out user.pfx -inkey user.key -in user.crt -certfile ca.c
 
 #### Moving CA Cert, Server Cert and Key to Where Nginx is Looking for them ####
 mv nginx_server.crt /etc/ssl/certs/nginx_server.crt
-mv nginx_server.key /etc/ssl/private/nginx_server.key;
+mv nginx_server.key /etc/ssl/private/nginx_server.key
 mv ca.crt /etc/ssl/certs/ca.crt
 
 
