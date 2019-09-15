@@ -50,6 +50,8 @@ mv ca.crt /etc/ssl/certs/ca.crt
 
 
 #### Moving PKCS to where one can download from, also for that purpose granting permission to the user ubuntu
+mkdir /home/ubuntu/PKCS/
+
 mv user.pfx /home/ubuntu/PKCS/server.pfx
 chown root:ubuntu /home/ubuntu/PKCS/server.pfx
 chmod 640 /home/ubuntu/PKCS/server.pfx
