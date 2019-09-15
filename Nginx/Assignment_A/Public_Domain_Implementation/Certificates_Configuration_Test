@@ -8,7 +8,7 @@ openssl genrsa -out ca.key 4096
 ## Create a CA Certificate
 #openssl req -new -nodes -x509 -days 365 -key ca.key -out ca.crt
 #openssl x509 -in ca.crt -text -noout, content of the certificate
-openssl req -new -nodes -x509 -days 365 -key ca.key -out ca.crt -subj "/C=IL/L=Jer/O=CA"
+openssl req -new -nodes -x509 -days 365 -key ca.key -out ca.crt -subj "/C=IL/ST=''/L=Jer/O=CA/CN=''"
 
 
 #### Server Cert ####
@@ -18,7 +18,7 @@ openssl genrsa -out nginx_server.key 2048
 
 ## Create The Server CSR (Certificate Signing Request)
 #openssl req -in nginx_server.csr -noout -text, content of the CSR
-openssl req -new -key nginx_server.key -out nginx_server.csr -subj "/C=IL/L=Jer/O=NginX"
+openssl req -new -key nginx_server.key -out nginx_server.csr -subj "/C=IL/ST=''/L=Jer/O=NginX/CN=''"
 
 ## Create The Server Cert
 #openssl x509 -in nginx_server.crt -text -noout
@@ -34,7 +34,7 @@ openssl pkcs12 -export -out server.pfx -inkey nginx_server.key -in nginx_server.
 openssl genrsa -out user.key 2048
 
 ## Create a user CSR (Certificate Signing Request)
-openssl req -new -key user.key -out user.csr -subj "/C=IL/L=Jer/O=UserCert"
+openssl req -new -key user.key -out user.csr -subj "/C=IL/ST=''/L=Jer/O=UserCert/CN=''"
 
 ## Signing the CSR and creating the user cert
 openssl x509 -req -days 365 -in user.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out user.crt
