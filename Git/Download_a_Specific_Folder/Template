@@ -1,0 +1,16 @@
+#!/bin/bash
+# Link https://github.community/t5/How-to-use-Git-and-GitHub/How-can-I-download-a-specific-folder-from-a-GitHub-repo/td-p/88
+
+mkdir Repo
+cd Repo
+git init
+git remote add origin -f <URL>
+git config core.sparseCheckout true
+echo "/absolute/path/to/folder" > .git/info/sparse-checkout
+git pull origin master
+
+
+
+
+
+
