@@ -45,14 +45,14 @@ openssl pkcs12 -export -out user.pfx -inkey user.key -in user.crt -certfile ca.c
 
 #### Moving CA Cert, Server Cert and Key to Where Nginx is Looking for them ####
 mv nginx_server.crt /etc/ssl/certs/nginx_server.crt
-mv nginx_server.crt /etc/ssl/private/nginx_server.key;
+mv nginx_server.key /etc/ssl/private/nginx_server.key;
 mv ca.crt /etc/ssl/certs/ca.crt
 
 
 #### Moving PKCS to where one can download from, also for that purpose granting permission to the user ubuntu
 mkdir /home/ubuntu/PKCS/
 
-mv user.pfx /home/ubuntu/PKCS/server.pfx
+mv server.pfx /home/ubuntu/PKCS/server.pfx
 chown root:ubuntu /home/ubuntu/PKCS/server.pfx
 chmod 640 /home/ubuntu/PKCS/server.pfx
 
