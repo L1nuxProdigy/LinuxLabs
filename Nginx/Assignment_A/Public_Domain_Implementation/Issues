@@ -1,3 +1,5 @@
 #1 	The Domains specified are public and not internal
 
 #3 Nginx doesnt accept this 52.59.237.101:8065 as a URL? why?
+
+#4 Link https://security.stackexchange.com/questions/74345/provide-subjectaltname-to-openssl-directly-on-the-command-line
