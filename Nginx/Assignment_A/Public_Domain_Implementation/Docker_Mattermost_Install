@@ -1,4 +1,6 @@
 #!/bin/bash
 
+Local_IPV4=$(curl "http://169.254.169.254/latest/meta-data/local-ipv4")
+
 docker pull mattermost/platform
-docker run --name mattermost-preview -d --publish 8065:8065 --add-host dockerhost:127.0.0.1 mattermost/mattermost-preview
+docker run --name mattermost-preview -d --publish 8065:8065 --add-host dockerhost:${Local_IPV4} mattermost/mattermost-preview

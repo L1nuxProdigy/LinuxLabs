@@ -103,7 +103,7 @@ server {
 
     server_name test-docker.altris.co.il;
 
-    return 301 https://${Public_IPV4}:8065/;
+    return 301 https://\$server_name\$request_uri;
 }
 EOF
 
