@@ -1,19 +1,17 @@
 [req]
-default_bits = 2048
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
 prompt = no
-default_md = sha256
-req_extensions = req_ext
-distinguished_name = dn
-
-[ dn ]
-C=IL
-L=Jer
-O=CA
-CN = www.company.com
-
-[ req_ext ]
+[req_distinguished_name]
+C = IL
+ST = Not
+L = Jer
+O = CA
+OU = CADevision
+CN = www.altris.co.il
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
-
-[ alt_names ]
-DNS.1 = www.company.com
-DNS.2 = company.com
+[alt_names]
+DNS.1 = *.altris.co.il
