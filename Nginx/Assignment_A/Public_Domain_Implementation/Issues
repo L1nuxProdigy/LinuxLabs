@@ -1,5 +1,9 @@
 #1 	The Domains specified are public and not internal
 
-#3 Nginx doesnt accept this 52.59.237.101:8065 as a URL? why?
-
-#4 Link https://security.stackexchange.com/questions/74345/provide-subjectaltname-to-openssl-directly-on-the-command-line
+#2 Mattermost service is exposed on 8065 port and can be reached without hitting the Nginx Service through: (Need a Fix)
+	http://IP:8065
+	
+#3 Using the following links going to the matermost site instead of default site
+	http://IP
+	https://IP
+	
