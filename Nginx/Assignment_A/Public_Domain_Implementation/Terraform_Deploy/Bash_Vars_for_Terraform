@@ -9,4 +9,4 @@ Temp_Folder="/home/ubuntu/Temp"
 Project_Folder="/home/ubuntu/nginx-terraform-repo"
 Terraform_Project_Folder=$Project_Folder/Terraform_Deploy
 Github_Copied_Location=$Temp_Folder/$Nginx_Project_Path
-Nginx_Reverse_Proxy_Script=$Terraform_Project_Folder/Terraform_Aggregate_Script
+Nginx_Reverse_Proxy_Script=$Project_Folder/AWS_User_Data_Script
