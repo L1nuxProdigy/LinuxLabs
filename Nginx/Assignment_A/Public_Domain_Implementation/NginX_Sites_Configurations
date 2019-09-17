@@ -5,26 +5,24 @@
 # Vars
 Public_IPV4=$(curl "http://169.254.169.254/latest/meta-data/public-ipv4")
 cat << EOF > /etc/nginx/sites-available/default
-server {
-    listen 80;
+http {
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
 
-    server_name ${Public_IPV4};
-
-    location / {
-        proxy_pass https://ynet.co.il/;
+        location / {
+            proxy_pass https://ynet.co.il/;
+        }
     }
-}
 
-server {
-    listen 443 ssl;
-    include snippets/self-signed.conf;
-    include snippets/ssl-params.conf;
+    server {
+        listen 443 default_server;
+        listen [::]:443 default_server;
 
-    server_name ${Public_IPV4};
-
-    location / {
-      proxy_pass https://ynet.co.il/;
-    }
+        location / {
+            proxy_pass https://ynet.co.il/;
+        }
+    }	
 }
 EOF
 #ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
@@ -90,6 +88,8 @@ EOF
 ln -s /etc/nginx/sites-available/client_and_server_cert /etc/nginx/sites-enabled/client_and_server_cert
 
 ## Site 4 ##
+# Vars
+Public_IPV4=$(curl "http://169.254.169.254/latest/meta-data/public-ipv4")
 # Redirects the Request with Server Cert and Client Cert to Local Mattermost Docker Container.
 # Using regulare EOF with escape characters to allow the Public_IPV4 Variable subtitution.
 cat << EOF > /etc/nginx/sites-available/Mattermost
