@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./Bash_Vars_for_Terraform
 
 #installing Terraform
 apt update
@@ -8,4 +9,8 @@ unzip ./terraform_0.12.8_linux_amd64.zip
 mv ./terraform /usr/local/bin/
 rm -rf ./terraform_0.12.8_linux_amd64.zip
 chown ubuntu /usr/local/bin/
+
+cd $Terraform_Project_Folder
+terraform init
+
 
