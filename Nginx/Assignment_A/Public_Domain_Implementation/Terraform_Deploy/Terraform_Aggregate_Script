@@ -1,0 +1,9 @@
+#!/bin/bash
+
+./Install Terraform
+./Create_Var_File_for_Terraform
+
+
+
+
+
