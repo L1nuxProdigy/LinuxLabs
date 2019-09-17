@@ -1,14 +1,19 @@
 ##################################################################################
 # VARIABLES
 ##################################################################################
+### Connection Vars ###
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "private_key_path" {}
+variable "aws_key_name" {
+  default = "New"
+}
+
+### AMI Vars ###
+variable "ubuntu_image_18-04" {default = "ami-0ac05733838eabc06"}
 
 ### Machines Configurations Scripts ###
 variable "user_data_nginx_reverse_proxy" {}
-
-### Images Vars ###
-variable "Ubuntu_Server_18.04" {
-	default = "ami-0ac05733838eabc06"
-}
 
 ##################################################################################
 # PROVIDERS
@@ -25,7 +30,7 @@ provider "aws" {
 ##################################################################################
 resource "aws_vpc" "VPC_main" {
   cidr_block = "10.0.0.0/16"
-  enable_dns_hostnames = "TRUE"
+  enable_dns_hostnames = true
   tags = {
 	Name = "Terraform_VPC"
   }
@@ -34,7 +39,7 @@ resource "aws_vpc" "VPC_main" {
 resource "aws_subnet" "Subnet_main" {
   vpc_id     = "${aws_vpc.VPC_main.id}"
   cidr_block = "10.0.1.0/24"
-  map_public_ip_on_launch = "TRUE"
+  map_public_ip_on_launch = true
 
   tags = {
 	Name = "Terraform_Subnet"
@@ -118,12 +123,11 @@ resource "aws_security_group" "SecurityGroup_main" {
 ##################################################################################
 
 resource "aws_instance" "Facing_NginX_Reverse_Proxy" {
-	ami           = "${var.Ubuntu_Server_18.04}"
+	ami           = "${var.ubuntu_image_18-04}"
 	instance_type = "t2.micro"
 	key_name        = "${var.aws_key_name}"
 	subnet_id = "${aws_subnet.Subnet_main.id}"
 	vpc_security_group_ids = ["${aws_security_group.SecurityGroup_main.id}"]
-	iam_instance_profile = "${aws_iam_instance_profile.Consul_IAM_Profile.name}"
 	
 	tags = {
 	Name = "Nginx_Reverse_Proxy_By_Terraform"
