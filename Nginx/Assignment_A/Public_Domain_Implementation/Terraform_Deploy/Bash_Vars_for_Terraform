@@ -1,0 +1,13 @@
+#!/bin/bash
+#In Project Tree Vars
+Terraform_Folder_Path="/Nginx/Assignment_A/Public_Domain_Implementation/Terraform_Deploy/"
+Terraform_Bash_Vars_Path="/Nginx/Assignment_A/Public_Domain_Implementation/Terraform_Deploy/Bash_Vars_for_Terraform"
+
+#Remote Machine Vars
+Temp_Folder="/home/ubuntu/Temp"
+Project_Folder="/home/ubuntu/nginx-terraform-repo"
+Terraform_Folder_Path_in_Ubuntu="/home/ubuntu/Temp/Nginx/Assignment_A/Public_Domain_Implementation/Terraform_Deploy"
+
+#Other Vars
+Github_Repo_Parent="https://github.com/L1nuxProdigy/LinuxLabs"
+

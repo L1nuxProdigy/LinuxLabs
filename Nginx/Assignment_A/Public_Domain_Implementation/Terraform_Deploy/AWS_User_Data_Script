@@ -1,0 +1,16 @@
+#!/bin/bash
+# Importing vars
+source ./Bash_Vars_for_Terraform
+
+mkdir $Temp_Folder
+cd $Temp_Folder
+git init
+git remote add origin -f $Github_Repo_Parent
+git config core.sparseCheckout true
+echo $Terraform_Folder_Path > .git/info/sparse-checkout
+git pull origin master
+
+mkdir $Project_Folder
+mv $Terraform_Folder_Path_in_Ubuntu/* $Project_Folder
+
+rm -rf $Temp_Folder

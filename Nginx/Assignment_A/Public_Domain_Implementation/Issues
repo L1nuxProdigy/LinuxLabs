@@ -1,9 +1,4 @@
 #1 	The Domains specified are public and not internal
 
-#2 Mattermost service is exposed on 8065 port and can be reached without hitting the Nginx Service through: (Need a Fix)
-	http://IP:8065
-	
-#3 Using the following links going to the matermost site instead of default site
-	http://IP
-	https://IP
+#2 the ca certificate is not approved by the browser even when put in the root trusted store
 	
