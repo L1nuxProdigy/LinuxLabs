@@ -4,8 +4,9 @@
 Github_Repo_Parent="https://github.com/L1nuxProdigy/LinuxLabs"
 Nginx_Project_Path="/Nginx/Assignment_A/Public_Domain_Implementation/"
 
-#In the Remote Machine Paths
+#In the Terraform Remote Machine Paths
 Temp_Folder="/home/ubuntu/Temp"
 Project_Folder="/home/ubuntu/nginx-terraform-repo"
 Terraform_Project_Folder=$Project_Folder/Terraform_Deploy
 Github_Copied_Location=$Temp_Folder/$Nginx_Project_Path
+Nginx_Reverse_Proxy_Script=$Project_Folder/Aggregate_Script

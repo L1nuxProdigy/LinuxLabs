@@ -2,19 +2,13 @@
 # VARIABLES
 ##################################################################################
 
-### Connection Vars ###
-variable "aws_access_key" {
-    default = "<your_aws_access_key>"
-}
-variable "aws_secret_key" {
-    default = "<your_aws_secret_key>"
-}
-variable "aws_key_name" {
-    default = "<your_aws_key_name>"
-}
-
 ### Machines Configurations Scripts ###
-variable "user_data_dummy_exporter_path1" {}
+variable "user_data_nginx_reverse_proxy" {}
+
+### Images Vars ###
+variable "Ubuntu_Server_18.04" {
+	default = "ami-0ac05733838eabc06"
+}
 
 ##################################################################################
 # PROVIDERS
@@ -23,7 +17,7 @@ variable "user_data_dummy_exporter_path1" {}
 provider "aws" {
   access_key = "${var.aws_access_key}"
   secret_key = "${var.aws_secret_key}"
-  region     = "us-east-1"
+  region     = "eu-central-1"
 }
 
 ##################################################################################
@@ -124,7 +118,7 @@ resource "aws_security_group" "SecurityGroup_main" {
 ##################################################################################
 
 resource "aws_instance" "Facing_NginX_Reverse_Proxy" {
-	ami           = "ami-0ac019f4fcb7cb7e6"
+	ami           = "${var.Ubuntu_Server_18.04}"
 	instance_type = "t2.micro"
 	key_name        = "${var.aws_key_name}"
 	subnet_id = "${aws_subnet.Subnet_main.id}"
@@ -135,22 +129,7 @@ resource "aws_instance" "Facing_NginX_Reverse_Proxy" {
 	Name = "Nginx_Reverse_Proxy_By_Terraform"
 	}
 	
-	user_data = "${file(var.user_data_dummy_exporter_path1)}"
-}
-
-resource "aws_instance" "App_with_Consul_client-2" {
-	ami           = "ami-0ac019f4fcb7cb7e6"
-	instance_type = "t2.micro"
-	key_name        = "${var.aws_key_name}"
-	subnet_id = "${aws_subnet.Subnet_main.id}"
-	vpc_security_group_ids = ["${aws_security_group.SecurityGroup_main.id}"]
-	iam_instance_profile = "${aws_iam_instance_profile.Consul_IAM_Profile.name}"
-	
-	tags = {
-	Name = "APP2_by_Terraform"
-	}
-	
-	user_data = "${file(var.user_data_dummy_exporter_path2)}"
+	user_data = "${file(var.user_data_nginx_reverse_proxy)}"
 }
 
 ##################################################################################
@@ -158,5 +137,5 @@ resource "aws_instance" "App_with_Consul_client-2" {
 ##################################################################################
 
 output "aws_instance_public_dns" {
-	value = "${aws_instance.App_with_Consul_client-1.public_dns}"
+	value = "${aws_instance.Facing_NginX_Reverse_Proxy.public_dns}"
 }

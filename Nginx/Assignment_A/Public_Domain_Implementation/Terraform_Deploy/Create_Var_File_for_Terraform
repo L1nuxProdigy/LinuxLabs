@@ -3,6 +3,5 @@
 source ./Bash_Vars_for_Terraform
 
 cat << EOF > $Terraform_Project_Folder/Terraform_Vars
-user_data_nginx_reverse_proxy = "$Project_Folder"
-}	
+user_data_nginx_reverse_proxy = "$Nginx_Reverse_Proxy_Script"
 EOF
