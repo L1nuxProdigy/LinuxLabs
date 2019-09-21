@@ -4,3 +4,4 @@
 ./install_mysql_client
 ./configure_apache2_virtual_hosting
 ./install_wordpress
+./configure_the_mysql_database
