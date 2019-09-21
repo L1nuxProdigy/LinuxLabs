@@ -23,7 +23,7 @@ sed -i "48r temp_data_file" /tmp/wordpress/wp-config.php # inserting the securit
 # insert database params in the wordpress config
 cat << EOF > temp_data_file
 /** The name of the database for WordPress */
-define( 'DB_NAME', '{mysql_host}' );
+define( 'DB_NAME', '${mysql_wordpress_database_name}' );
 
 /** MySQL database username */
 define( 'DB_USER', '${mysql_wordpress_database_user_name}' );
