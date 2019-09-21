@@ -14,4 +14,4 @@ mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "CREATE 
 mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "CREATE USER '${mysql_wordpress_database_user_name}'@${Local_IPV4} IDENTIFIED WITH mysql_native_password BY '${mysql_wordpress_database_user_password}';"
 
 # Gice the user permissions on the database
-mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "GRANT ALL ON {mysql_wordpress_database_name}.* TO '${mysql_wordpress_database_user_name}'@${Local_IPV4};"
+mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "GRANT ALL ON ${mysql_wordpress_database_name}.* TO '${mysql_wordpress_database_user_name}'@${Local_IPV4};"
