@@ -7,12 +7,38 @@ source ./vars_file
 cd /tmp
 curl -O https://wordpress.org/latest.tar.gz
 tar xzvf latest.tar.gz
+rm -rf latest.tar.gz
 
 # create empty htaccess file
 touch /tmp/wordpress/.htaccess
 
 # create wordpress config file out of the template
 cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
+
+# insert some security in the config file
+sed -i '49,56d' /tmp/wordpress/wp-config.php #deletes the sample lines
+curl -s https://api.wordpress.org/secret-key/1.1/salt/ > temp_data_file #get secuirty parameters
+sed -i "48r temp_data_file" /tmp/wordpress/wp-config.php # inserting the security parameters
+
+# insert database params in the wordpress config
+cat << EOF > temp_data_file
+/** The name of the database for WordPress */
+define( 'DB_NAME', '{mysql_host}' );
+
+/** MySQL database username */
+define( 'DB_USER', '${mysql_wordpress_database_user_name}' );
+
+/** MySQL database password */
+define( 'DB_PASSWORD', '${mysql_wordpress_database_user_password}' );
+
+/** MySQL hostname */
+define( 'DB_HOST', '${mysql_host}' );
+EOF
+
+sed -i '22,32d' /tmp/wordpress/wp-config.php
+sed -i "21r temp_data_file" /tmp/wordpress/wp-config.php
+
+rm -rf temp_data_file
 
 # to allow wordpress in the future make upgrades on its own
 mkdir /tmp/wordpress/wp-content/upgrade
@@ -29,12 +55,3 @@ find /var/www/$apache_site_domain_name/ -type f -exec chmod 640 {} \;
 
 find /var/www/html/ -type d -exec chmod 750 {} \;
 find /var/www/html/ -type f -exec chmod 640 {} \;
-
-curl -s https://api.wordpress.org/secret-key/1.1/salt/ > temp_data_file
-
-/var/www/$apache_site_domain_name/wp-config.php
-
-sed -i '49,56d' /var/www/$apache_site_domain_name/wp-config.php
-sed "49r temp_data_file" /var/www/$apache_site_domain_name/wp-config.php
-
-rm -rf temp_data_file

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+./install_apache2_and_php
+./install_mysql_client
+./configure_apache2_virtual_hosting
+./install_wordpress
