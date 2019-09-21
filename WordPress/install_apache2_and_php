@@ -1,0 +1,21 @@
+#!/bin/bash
+
+## install apache 2 ##
+apt update -y
+apt install apache2 -y
+
+## install php ##
+apt install php libapache2-mod-php php-mysql -y
+
+# more php stuff
+apt install php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip -y
+
+cat << EOF > /etc/apache2/mods-enabled/dir.conf
+<IfModule mod_dir.c>
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet	
+EOF
+
+systemctl restart apache2

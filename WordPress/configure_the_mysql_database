@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source ./vars_file
+Local_IPV4=$(curl "http://169.254.169.254/latest/meta-data/local-ipv4")
+
+# Connecting to the database; -u for user; -p followed with the password; -h for host; another -p for port
+# which is mysql -u username -p<Password> -h FQDN -p port
+#mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port
+
+# Create the database
+mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+
+# Create a user in the database
+mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "CREATE USER 'wordpressuser'@${Local_IPV4} IDENTIFIED WITH mysql_native_password BY 'Uu123456';"
+
+# Gice the user permissions on the database
+mysql -u $mysql_user -p$mysql_password -h $mysql_host -P $mysql_port -e "GRANT ALL ON wordpress.* TO 'wordpressuser'@${Local_IPV4};"

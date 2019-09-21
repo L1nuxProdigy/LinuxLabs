@@ -1,0 +1,16 @@
+#!/bin/bash
+
+mkdir /home/ubuntu/Temp
+cd /home/ubuntu/Temp
+git init
+git remote add origin -f https://github.com/L1nuxProdigy/LinuxLabs
+git config core.sparseCheckout true
+echo "/WordPress" > .git/info/sparse-checkout
+git pull origin master
+
+mkdir /home/ubuntu/repo
+mv /home/ubuntu/Temp/WordPress/* /home/ubuntu/repo/
+
+rm -rf /home/ubuntu/Temp
+
+cd /home/ubuntu/repo

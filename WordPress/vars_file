@@ -1,0 +1,9 @@
+#!/bin/bash
+
+mysql_user=admin
+mysql_password=Aa123456
+mysql_host=database-1.ckvxohn5gjfs.eu-central-1.rds.amazonaws.com
+mysql_port=3306
+
+apache_site_domain_name="example.com"
+apache_user="ubuntu"

@@ -1,0 +1,61 @@
+#!/bin/bash
+
+source ./vars_file
+
+## creating and serving new site based on domain requuests
+
+mkdir /var/www/$apache_site_domain_name
+sudo chown -R $apache_user:$apache_user /var/www/$apache_site_domain_name
+chmod -R 755 /var/www/$apache_site_domain_name
+
+
+cat << EOF > /var/www/$apache_site_domain_name/index.html
+<html>
+    <head>
+        <title>Welcome to $apache_site_domain_name!</title>
+    </head>
+    <body>
+        <h1>Success!  The $apache_site_domain_name server block is working!</h1>
+    </body>
+</html>
+EOF
+
+cat << EOF > /etc/apache2/sites-available/$apache_site_domain_name.conf
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName $apache_site_domain_name
+    ServerAlias www.$apache_site_domain_name
+    DocumentRoot /var/www/$apache_site_domain_name
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+    <Directory /var/www/html>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+EOF
+
+a2ensite $apache_site_domain_name.conf
+
+#apache2ctl configtest
+
+## altering the default page with .htaccess Overrides and Rewrites
+
+cat << EOF > /etc/apache2/sites-available/000-default.conf
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+		
+        <Directory /var/www/html>
+            AllowOverride All
+        </Directory>
+</VirtualHost>
+EOF
+
+a2enmod rewrite
+
+## restarting the service to apply changes
+systemctl restart apache2
