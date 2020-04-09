@@ -1,0 +1,36 @@
+version: '2'
+
+services:  
+  drupal:
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile.drupal
+    #container_name: drupal
+    image: drupal:8.8.2
+    ports: ["8081:80"]
+    volumes:
+      - drupal_modules2:/var/www/html/modules
+      - drupal_profiles2:/var/www/html/profiles
+      - drupal_sites2:/var/www/html/sites
+      - drupal_themes2:/path/on/host/themes
+
+  postgres:
+    #container_name: postgres
+    image: postgres:12.1
+    environment:
+      POSTGRES_PASSWORD: "123"
+    volumes:
+      - drupal-data2:/var/lib/postgresql/data
+
+volumes:
+  drupal_modules2:
+  drupal_profiles2:
+  drupal_sites2:
+  drupal_themes2:
+
+  drupal-data2:
+
+
+#volumes: # Optional, same as docker volume create
+
+#networks: # Optional, same as docker network create
