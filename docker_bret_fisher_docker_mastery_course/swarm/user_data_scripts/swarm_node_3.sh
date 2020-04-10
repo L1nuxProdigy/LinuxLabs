@@ -1,6 +1,6 @@
 #!/bin/bash
 #### changing hostname
-hostnamectl set-hostname swarm_node_3
+hostnamectl set-hostname node3
 
 # installing Docker CE Prerequisites
 sudo apt-get update -y

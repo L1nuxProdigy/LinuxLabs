@@ -71,8 +71,8 @@ resource "aws_security_group" "SecurityGroup_main" {
 # Route 53 - Internal
 ##################################################################################
 
-resource "aws_route53_zone" "swarm_local" {
-  name = "swarm.local"
+resource "aws_route53_zone" "swarm" {
+  name = "swarm"
   comment = "Deployed By Terraform - Swarm Lab"
 
   vpc {
@@ -83,28 +83,28 @@ resource "aws_route53_zone" "swarm_local" {
 
 resource "aws_route53_record" "swarm_node_1" {
   allow_overwrite = true
-  name            = "swarm_node_1.swarm.local"
+  name            = "node1"
   ttl             = 30
   type            = "A"
-  zone_id         = aws_route53_zone.swarm_local.zone_id
+  zone_id         = aws_route53_zone.swarm.zone_id
   records         = [aws_instance.swarm_node_1.private_ip]
 }
 
 resource "aws_route53_record" "swarm_node_2" {
   allow_overwrite = true
-  name            = "swarm_node_2.swarm.local"
+  name            = "node2"
   ttl             = 30
   type            = "A"
-  zone_id         = aws_route53_zone.swarm_local.zone_id
+  zone_id         = aws_route53_zone.swarm.zone_id
   records         = [aws_instance.swarm_node_2.private_ip]
 }
 
 resource "aws_route53_record" "swarm_node_3" {
   allow_overwrite = true
-  name            = "swarm_node_3.swarm.local"
+  name            = "node3"
   ttl             = 30
   type            = "A"
-  zone_id         = aws_route53_zone.swarm_local.zone_id
+  zone_id         = aws_route53_zone.swarm.zone_id
   records         = [aws_instance.swarm_node_3.private_ip]
 }
 
