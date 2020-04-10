@@ -16,6 +16,7 @@ Prerequisites
 
     (3) aws_keypair_name, the name of your keypair
 4. execute with ./make_terraform_command to run the deployment
+5. remember to destroy when done with ./unmake_terraform_command
 
 post deployment the machines can be resolved internally with the following FQDNs:
 - node1.swarm
