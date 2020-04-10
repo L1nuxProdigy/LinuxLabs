@@ -4,7 +4,7 @@
 
 Prerequisites
 - Terraform
-- AWS Account
+- AWS Account (credentials configured in .aws)
 
 1. clone this repository and cd into this location.
 2. use the "terraform init" command
@@ -15,6 +15,7 @@ Prerequisites
     (2) subnet_id_string, the subnet id in the vpc
 
     (3) aws_keypair_name, the name of your keypair
+4. execute with ./make_terraform_command to run the deployment
 
 post deployment the machines can be resolved internally with the following FQDNs:
 - node1.swarm
