@@ -1,0 +1,3 @@
+swarm_node_1 = "./user_data_scripts/swarm_node_1.sh"
+swarm_node_2 = "./user_data_scripts/swarm_node_2.sh"
+swarm_node_3 = "./user_data_scripts/swarm_node_3.sh"

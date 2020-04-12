@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:  
+  drupal:
+    #container_name: drupal_dns_alias
+    image: drupal:8.2
+    ports: ["8090:80"]
+    volumes:
+      - drupal_modules:/var/www/html/modules
+      - drupal_profiles:/var/www/html/profiles
+      - drupal_sites:/var/www/html/sites
+      - drupal_themes:/path/on/host/themes
+    networks: 
+      - unified_network
+
+  postgres:
+    #container_name: postgres_dns_alias
+    image: postgres:12.1
+    environment:
+      POSTGRES_PASSWORD_FILE: "/run/secrets/postgres_pass"
+    volumes:
+      - postgres_drupal_data:/var/lib/postgresql/data
+    secrets:
+      - postgres_pass
+    networks: 
+      - unified_network
+
+  visualizer:
+    image: dockersamples/visualizer
+    ports:
+      - "8091:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+volumes:
+  drupal_modules:
+  drupal_profiles:
+  drupal_sites:
+  drupal_themes:
+  postgres_drupal_data:
+
+networks:
+  unified_network:
+
+secrets:
+  postgres_pass:
+    external: true

@@ -61,6 +61,13 @@ resource "aws_security_group" "SecurityGroup_main" {
 		description = "HTTPS"
 	}
 	ingress {
+		from_port   = 50001
+		to_port     = 50001
+		protocol    = "TCP"
+		cidr_blocks = ["0.0.0.0/0"]
+		description = "Result APP"
+	}
+	ingress {
 		from_port   = 0
 		to_port     = 0
 		protocol    = "-1"
