@@ -1,0 +1,2 @@
+docker_client = "./user_data_scripts/docker_client.sh"
+docker_registry = "./user_data_scripts/docker_registry.sh"

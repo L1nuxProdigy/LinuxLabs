@@ -1,0 +1,22 @@
+## Run the registry image
+docker container run -d -p 5000:5000 --name registry registry
+
+## Pull a simple image for testing and re-tag to push into the local docker registry
+docker container run hello-world
+docker image tag hello-world:latest <registry's FQDN or IP>:5000/hello-world
+docker push <registry's FQDN or IP>:5000/hello-world
+
+** for some reason specifying FQDN did not work
+
+## Delete the image that was pushed and try to run/ pull it from the container registry
+docker image rm hello-world
+docker iamge rm <registry's FQDN or IP>:5000/hello-world
+docker run 127.0.0.1:5000/hello-world
+
+## Re-Create the registry using a bind mount and see how the data is stored
+docker container run -d -p 5000:5000 --name registry -v $(pwd)/registry-data:/var/lib/registry registry
+tree $(pwd)/registry-data
+
+## Re-Upload an image to the new created registry, delete the registry again and recreate it and see if the pushed image can be pulled- was it stored in the volume
+docker rm -f $(docker ps -a -q)
+docker rmi -f $(docker images -a -q)
