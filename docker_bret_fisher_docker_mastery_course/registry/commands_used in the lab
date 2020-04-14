@@ -1,3 +1,4 @@
+PART 1
 ## Run the registry image
 docker container run -d -p 5000:5000 --name registry registry
 
@@ -15,8 +16,38 @@ docker run 127.0.0.1:5000/hello-world
 
 ## Re-Create the registry using a bind mount and see how the data is stored
 docker container run -d -p 5000:5000 --name registry -v $(pwd)/registry-data:/var/lib/registry registry
-tree $(pwd)/registry-data
+tree registry-data
 
 ## Re-Upload an image to the new created registry, delete the registry again and recreate it and see if the pushed image can be pulled- was it stored in the volume
 docker rm -f $(docker ps -a -q)
 docker rmi -f $(docker images -a -q)
+
+PART2
+## Create a cert and a key
+mkdir certs
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/registry.key -x509 -days 365 -out certs/registry.crt
+
+## Make the docker deamon to trust the certificate
+sudo mkdir -p /etc/docker/certs.d/registry
+sudo cp certs/registry.crt /etc/docker/certs.d/registry/registry.crt
+
+sudo pkill dockerd
+
+## create a user/password file with the registry authentication method
+mkdir auth
+docker run --entrypoint htpasswd registry:latest -Bbn moby gordon > auth/htpasswd
+
+## Run the registry
+mkdir registry-data
+docker run -d -p 5000:5000 --name registry \
+  --restart unless-stopped \
+  -v $(pwd)/registry-data:/var/lib/registry \
+  -v $(pwd)/certs:/certs \
+  -v $(pwd)/auth:/auth \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/registry.key \
+  -e REGISTRY_AUTH=htpasswd \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e "REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd" \
+  registry
+

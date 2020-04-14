@@ -1,12 +1,5 @@
-Testing a local docker registry
-
-requires more info
-
-
-
-
-
-
+Testing a local docker registry.
+the lab includes 2 instances, but I was using only one machine with the registry installed locally.
 
 
 Based on Bret's Fisher course:  
