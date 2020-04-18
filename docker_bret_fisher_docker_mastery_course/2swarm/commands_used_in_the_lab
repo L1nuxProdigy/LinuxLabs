@@ -1,0 +1,11 @@
+####
+docker network create --driver overlay frontend_voting_app
+docker network create --driver overlay backend_voting_app
+
+
+####
+docker service create -d --name vote --network frontend_voting_app -p 80:80 --replicas 2 bretfisher/examplevotingapp_vote
+docker service create -d --name redis --network frontend_voting_app redis:3.2
+docker service create -d --name worker --network frontend_voting_app --network backend_voting_app bretfisher/examplevotingapp_worker:java
+docker service create -d --name db --network backend_voting_app --mount type=volume,source=postgres_data,destination=/var/lib/postgresql/data -e POSTGRES_HOST_AUTH_METHOD=trust postgres:9.4
+docker service create -d --name result --network backend_voting_app -p 50001:80 bretfisher/examplevotingapp_result
