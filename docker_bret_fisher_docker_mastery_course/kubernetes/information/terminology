@@ -1,0 +1,28 @@
+Basic Terms:
+(1) kubectl: the K8s CLI (officaly pronunciation- "cube control").
+(2) nodes: K8s workforce (workers, minions, runners).
+    - kublet: the K8s agent running on K8s nodes.
+    - kube-proxy: taking care of the node networking.
+(3) control plane: set of containers that manage the K8s cluster and reside at the masters.
+    - etcd: distributed storage system for key-values that uses the raft protocol (just like in swarm and thus masters should always be in odd numbers).
+    - API: the way to interact with the cluster and issue orders to it.
+    - scheduler: decides how to distribute deployed pods on the nodes.
+    - controller manager: using the API to see the state of the cluster and the differences from the desired state. will take action to reach the desired state.
+    - CoreDNS: the default DNS plugin in K8s which is not built in into it.
+    - other plugins
+
+(4) pod: K8s atomic unit, in it the containers reside
+(5) replica set: ensures to maintain a stable set of replicas for a pod. a higher-level concept that manages pods.
+(6) deployment: provides declarative updates for pods and replica sets. a higher-level concept that manages replica sets and pods.
+(5) controller: to create K8s pods and other objects
+(6) serivce: network endpoint to connect to a pod
+    - ClusterIP, the default, only available in the cluster, can be reached internally via servicename:port. (available in kubernetes out of the box).
+    - NodePort, available externally via the node IP address, will be assigned with a high port. (available in kubernetes out of the box).
+    - LoadBalancer, controls a LB endpoint external to the cluster, requires a LB from a cloud provider, connects cloud LB with NodPort and ClusterIP.
+    - ExternalName, to familiarize the DNS with external resources outside the cluster.
+(7) namespace: filterd group of objects in cluster
+
+** Example touching some of the above:  
+    deployment update the replica set which modifing the amount of repllicas of a desired pod,  
+    the control plane then decide which nodes will hold the new replica pods,  
+    then the kublet agent on the nodes executes the command and taking care for the containers and pods.

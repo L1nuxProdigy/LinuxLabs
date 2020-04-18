@@ -1,0 +1,57 @@
+####### pay attention there are variations and more commands than needed because of the changes between 1.17 to 1.18 #######
+
+#### can help detact running state, and shows version of client and server
+kubectl version
+
+#### run a pod through a deployment
+kubectl run deployment_name --image image_name
+
+#### create a deployment
+kubectl create deployment deployment_name --image=image_name
+
+#### scale deployment (variations)
+kubectl scale deploy/deployment_name --replicas 2
+kubectl scale deployment deployment_name --replicas 2
+
+#### create a service (ClusterIP is the default)
+kubectl expose deployment/deployment_name --port 9999
+kubectl expose deployment/deployment_name --port 9999 --name service_name --type NodePort
+kubectl expose deployment/deployment_name --port 9999 --name service_name --type LoadBalancer
+
+#### get objects
+kubectl get all
+kubectl get pods
+kubectl get pods -w
+kubectl get deployments
+kubectl get services
+
+#### logs, will show logs from one of the pods
+## by default can query up to 5 pods at a time. remember it taxing the system, usually logs should be retrieved with another system
+# --follow will wait for other logs
+# --tail 1 wil get one log at a time
+# -l lable
+# run the lable created during the run command
+kubectl logs deployment/deployment-name --follow --tail 1
+kubectl logs -l run=deployment_name
+
+#### describe and details
+kubectl describe pods
+kubectl describe pod/pod_name
+
+#### delete objects
+kubectl delete deployment deployment_name
+kubectl delete pod/pod_name
+kubectl delete service/service_name deployment/deployment_name
+
+
+
+
+###### some differences between 1.17 which used in the lab to 1.18
+## in 1.17 will create a pod through a deployment
+kubectl run deployment_name --image image_name
+
+## in 1.18 will create a pod
+kubectl run deployment_name --image image_name
+
+## in 1.18 will create a pod through a deployment
+kubectl create deployment deployment_name --image image_name
