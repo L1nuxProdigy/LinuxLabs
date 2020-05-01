@@ -1,3 +1,1 @@
 # LinuxLabs
-
-GITHUB SUPPORT PLEASE HELP ME
