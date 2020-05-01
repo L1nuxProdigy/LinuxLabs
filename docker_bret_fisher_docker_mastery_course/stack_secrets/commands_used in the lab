@@ -1,3 +1,0 @@
-echo "<pass_string>" | docker secret create postgres_pass -
-
-docker stack deploy -c docker-compose.yml <stack_name>

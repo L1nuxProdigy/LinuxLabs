@@ -1,2 +1,0 @@
-#!/bin/bash
-terraform apply -var-file='vars_terraform'
